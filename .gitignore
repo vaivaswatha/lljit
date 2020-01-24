@@ -1,0 +1,7 @@
+examplejit.exe
+cscope.out
+TAGS
+compile_commands.json
+.clang_complete
+compile_flags.txt
+.gdbinit
