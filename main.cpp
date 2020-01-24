@@ -15,9 +15,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include <functional>
-#include <iostream>
-
 #include "llvm/Support/CommandLine.h"
 #include "llvm/Support/raw_ostream.h"
 
@@ -33,7 +30,7 @@ cl::opt<std::string> InputFilename(cl::Positional, cl::desc("<input file>"),
                                    cl::Required);
 cl::opt<std::string> OutputFilename("o", cl::desc("Specify output filename"),
                                     cl::value_desc("filename"));
-void versionPrinter(llvm::raw_ostream &OS) { OS << "examplejit: v0.0.0\n"; }
+void versionPrinter(llvm::raw_ostream &OS) { OS << "lljit: v0.0.0\n"; }
 
 ExitOnError ExitOnErr;
 
