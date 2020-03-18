@@ -27,3 +27,8 @@ This should produce an executable named `lljit.exe`.
     ```bash
     clang-9 -emit-llvm -S helloworld.c
     ```
+
+### Testsuite
+Building the project should also build `testsuite.exe`, which can
+simply be run as `./testsuite.exe`, and it will JIT compile and
+run the helloworld.ll example described above.
