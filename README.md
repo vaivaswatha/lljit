@@ -31,4 +31,4 @@ This should produce an executable named `lljit.exe`.
 ### Testsuite
 Building the project should also build `testsuite.exe`, which can
 simply be run as `./testsuite.exe`, and it will JIT compile and
-run the helloworld.ll example described above.
+run the `helloworld.ll` example described above.
