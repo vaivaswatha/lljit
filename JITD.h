@@ -31,10 +31,9 @@ namespace ExampleVM {
 class ExampleJIT {
 private:
   // Use the Create method to build a ExampleJIT object.
-  ExampleJIT(std::unique_ptr<llvm::orc::LLJIT> J, llvm::ObjectCache *C)
-      : Jitter(std::move(J)), Cache(C) {}
+  ExampleJIT(std::unique_ptr<llvm::orc::LLJIT> J)
+      : Jitter(std::move(J)) {}
   std::unique_ptr<llvm::orc::LLJIT> Jitter;
-  llvm::ObjectCache *Cache;
 
 public:
   // One time initialization.
