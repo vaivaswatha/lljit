@@ -7,7 +7,7 @@ It does not cover generation of LLVM-IR.
   - Adding repository for [LLVM-9](https://apt.llvm.org/)
     * For Ubuntu 18.04
       ```bash
-      sudo apt-add-repository "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-9 main
+      sudo apt-add-repository "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-9 main"
       ```
     * Others: Visit the LLVM apt website above and follow instructions.
   - `sudo apt-get install libllvm9 llvm-9-dev clang-9`
