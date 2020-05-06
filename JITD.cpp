@@ -58,9 +58,9 @@ std::vector<FunctionsMap> getFunctions(void)
 }
 
 // Add functions in SRTL that the JIT'ed code can access.
-Error addExampleBuiltins(orc::ExecutionSession &ES, const DataLayout &DL) {
+Error addExampleBuiltins(orc::LLJIT &LLJitter, const DataLayout &DL) {
   orc::SymbolMap M;
-  orc::MangleAndInterner Mangle(ES, DL);
+  orc::MangleAndInterner Mangle(LLJitter.getExecutionSession(), DL);
   // Register every symbol that can be accessed from the JIT'ed code.
   auto ExampleFuncs = getFunctions();
   for (auto fa : ExampleFuncs) {
@@ -68,7 +68,7 @@ Error addExampleBuiltins(orc::ExecutionSession &ES, const DataLayout &DL) {
         pointerToJITTargetAddress(fa.FAddr), JITSymbolFlags());
   }
 
-  if (auto Err = (ES.getMainJITDylib().define(absoluteSymbols(M))))
+  if (auto Err = (LLJitter.getMainJITDylib().define(absoluteSymbols(M))))
     return Err;
 
   return Error::success();
@@ -92,12 +92,11 @@ ExampleJIT::create(const std::string &Filename, ObjectCache *OC) {
   auto J = orc::LLJITBuilder()
                .setCompileFunctionCreator(
                    [&](JITTargetMachineBuilder JTMB)
-                       -> Expected<IRCompileLayer::CompileFunction> {
+                       -> Expected<std::unique_ptr<IRCompileLayer::IRCompiler>> {
                      auto TM = JTMB.createTargetMachine();
                      if (!TM)
                        return TM.takeError();
-                     return IRCompileLayer::CompileFunction(
-                         TMOwningSimpleCompiler(std::move(*TM), OC));
+                     return std::make_unique<TMOwningSimpleCompiler>(std::move(*TM), OC);
                    })
                .create();
 
@@ -105,12 +104,12 @@ ExampleJIT::create(const std::string &Filename, ObjectCache *OC) {
     return J.takeError();
 
   if (auto Err =
-          addExampleBuiltins((*J)->getExecutionSession(), (*J)->getDataLayout()))
+          addExampleBuiltins(*(*J), (*J)->getDataLayout()))
     return std::move(Err);
 
   auto *THIS = new ExampleJIT(std::move(*J));
 
-  auto Ctx = llvm::make_unique<LLVMContext>();
+  auto Ctx = std::make_unique<LLVMContext>();
   SMDiagnostic Smd;
   auto M = parseIRFile(Filename, Smd, *Ctx);
   if (!M) {

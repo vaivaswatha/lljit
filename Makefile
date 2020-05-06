@@ -1,5 +1,5 @@
-CFLAGS=-I/usr/lib/llvm-9/include -std=c++14 -D_GNU_SOURCE -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS -gdwarf-4 -Wall
-LDFLAGS=-L/usr/lib/llvm-9/lib -lLLVM-9 -lboost_unit_test_framework
+CFLAGS=-I/usr/lib/llvm-10/include -std=c++14 -D_GNU_SOURCE -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS -gdwarf-4 -Wall
+LDFLAGS=-L/usr/lib/llvm-10/lib -lLLVM-10 -lboost_unit_test_framework
 
 all : lljit.exe testsuite.exe
 
