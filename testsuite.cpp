@@ -29,7 +29,7 @@ void execLLFile(const std::string &InputFilename) {
   // Without this dummy try-catch, test case "test_throw" will segfault.
   try {
     throw std::exception();
-  } catch (std::exception) {
+  } catch (std::exception &) {
     ;
   }
 }
